@@ -17,6 +17,20 @@ async function displayUsers() {
     users.forEach(user => {
     const listItem = document.createElement('li');
     listItem.textContent = `Name: ${user.name}, Email: ${user.email}`;
+    
+    const deleteButton = document.createElement("button")
+    deleteButton.textContent="Delete"
+    deleteButton.onclick=async function(){
+		await deleteUser(user.id);
+		await displayUsers();
+	}
+    
+    listItem.appendChild(deleteButton)
     userListElement.appendChild(listItem);
     });
+}
+async function deleteUser(userId){
+	//Perform deletion
+	await fetch(`http://localhost:8080/demo/delete/${userId}`, {
+            method: 'DELETE'});
 }
